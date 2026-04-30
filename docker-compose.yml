@@ -1,0 +1,66 @@
+services:
+  # MongoDB — база данных с TTL индексом
+  mongodb:
+    image: mongo:7.0
+    container_name: skystream-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: skystream
+    command: mongod --wiredTigerCacheSizeGB 1 --maxConns 100
+    restart: unless-stopped
+
+  # Redis — очередь задач для парсеров
+  redis:
+    image: redis:7-alpine
+    container_name: skystream-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  # Python Parser — API парсер авиабилетов с FastAPI
+  parser:
+    build:
+      context: ./parser_py
+      dockerfile: Dockerfile
+    container_name: skystream-parser
+    ports:
+      - "3002:3000"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/skystream
+      TRAVELPAYOUTS_TOKEN: ${TRAVELPAYOUTS_TOKEN:-your_token_here}
+      YANDEX_API_KEY: ${YANDEX_API_KEY:-your_yandex_api_key}
+      TUTU_API_KEY: ${TUTU_API_KEY:-your_tutu_api_key}
+      OZON_API_KEY: ${OZON_API_KEY:-your_ozon_api_key}
+      ONETWOTRIP_API_KEY: ${ONETWOTRIP_API_KEY:-your_onetwotrip_api_key}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./screenshots:/app/screenshots
+    restart: unless-stopped
+
+  # Web Interface — Streamlit дашборд
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: skystream-web
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mongodb
+      - parser
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/skystream
+      PARSER_API_URL: http://parser:3000
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  redis_data:

@@ -1,0 +1,25 @@
+{
+  "name": "skystream-parser",
+  "version": "2.0.0",
+  "description": "Professional flight price scraper with OOP architecture and API Hooking",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "scrape": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "playwright": "^1.40.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "protobufjs": "^7.2.4",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.0",
+    "redis": "^4.6.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}

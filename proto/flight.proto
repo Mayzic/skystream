@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message Flight {
+  string flight_number = 1;
+  string airline = 2;
+  int32 price = 3;          // price in roubles (integer)
+  string origin = 4;
+  string destination = 5;
+  string departure_date = 6; // ISO 8601 string (yyyy-mm-dd)
+  string source = 7;         // e.g. "kupibilet"
+}
+
+message FlightList {
+  repeated Flight flights = 1;
+}

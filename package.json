@@ -1,0 +1,37 @@
+{
+  "name": "skystream",
+  "version": "2.0.0",
+  "description": "Multi-source flight price aggregator for Russian domestic flights",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "api": "node src/api-server.js",
+    "web": "streamlit run web/app.py",
+    "dev": "npm run api & npm run web",
+    "scrape": "node src/app.js"
+  },
+  "dependencies": {
+    "axios": "^1.15.2",
+    "cors": "^2.8.6",
+    "date-fns": "^4.1.0",
+    "express": "^5.2.1",
+    "ghost-cursor": "^1.4.2",
+    "got-scraping": "^4.2.1",
+    "mongoose": "^7.6.3",
+    "playwright": "^1.40.0",
+    "playwright-extra": "^4.3.6",
+    "protobufjs": "^7.2.5",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "keywords": [
+    "flights",
+    "travel",
+    "scraper",
+    "aggregator",
+    "russia",
+    "aviation"
+  ],
+  "author": "",
+  "license": "MIT"
+}

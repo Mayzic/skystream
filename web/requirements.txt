@@ -1,0 +1,9 @@
+streamlit==1.29.0
+pymongo
+pandas
+plotly
+protobuf
+requests
+pandas==2.1.4
+matplotlib==3.8.2
+plotly==5.18.0
