@@ -1,129 +1,129 @@
 # SkyStream
 
-Multi-source flight price aggregator for Russian domestic flights.
+Многоисточниковый агрегатор цен на авиабилеты по России.
 
-## 🚀 Features
+## 🚀 Возможности
 
-- **Multi-source aggregation**: Collects flight data from Tutu.ru and Wildberries Travel simultaneously
-- **Parallel scraping**: Uses Promise.allSettled for concurrent data collection
-- **DOM parsing**: Extracts prices from Tutu.ru using Playwright with stealth
-- **API interception**: Captures JSON responses from Wildberries Travel
-- **MongoDB storage**: Stores flight data with automatic TTL (7 days)
-- **Web interface**: Streamlit dashboard for data visualization
-- **REST API**: Express.js API server for data access
+- **Многоисточниковая агрегация**: Сбор данных о рейсах с Tutu.ru и Wildberries Travel одновременно
+- **Параллельный скрапинг**: Использование Promise.allSettled для одновременного сбора данных
+- **DOM парсинг**: Извлечение цен с Tutu.ru с помощью Playwright и stealth
+- **Перехват API**: Перехват JSON ответов от Wildberries Travel
+- **Хранение в MongoDB**: Сохранение данных о рейсах с автоматическим TTL (7 дней)
+- **Веб-интерфейс**: Дашборд Streamlit для визуализации данных
+- **REST API**: Express.js API сервер для доступа к данным
 
-## 📋 Requirements
+## 📋 Требования
 
 - Node.js 18+
 - Python 3.8+
 - MongoDB 7.0+
 - npm
 
-## 🛠️ Installation
+## 🛠️ Установка
 
-### 1. Clone the repository
+### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/yourusername/skystream.git
+git clone https://github.com/Mayzic/skystream.git
 cd skystream
 ```
 
-### 2. Install Node.js dependencies
+### 2. Установка зависимостей Node.js
 
 ```bash
 npm install
 ```
 
-### 3. Install Python dependencies
+### 3. Установка зависимостей Python
 
 ```bash
 pip install -r web/requirements.txt
 ```
 
-### 4. Install Playwright browsers
+### 4. Установка браузеров Playwright
 
 ```bash
 npx playwright install chromium
 ```
 
-### 5. Start MongoDB
+### 5. Запуск MongoDB
 
 ```bash
-# Using Docker
+# Используя Docker
 docker-compose up -d
 
-# Or locally
+# Или локально
 mongod --dbpath ./data --port 27017
 ```
 
-## 🎯 Quick Start
+## 🎯 Быстрый старт
 
-### Using startup scripts (recommended)
+### Использование скриптов запуска (рекомендуется)
 
 ```bash
-# Make scripts executable
+# Сделать скрипты исполняемыми
 chmod +x start.sh stop.sh
 
-# Start all services
+# Запустить все сервисы
 ./start.sh
 
-# Stop all services
+# Остановить все сервисы
 ./stop.sh
 ```
 
-### Manual startup
+### Ручной запуск
 
 ```bash
-# Terminal 1: Start MongoDB
+# Терминал 1: Запуск MongoDB
 mongod --dbpath ./data --port 27017
 
-# Terminal 2: Start API server
+# Терминал 2: Запуск API сервера
 npm run api
 
-# Terminal 3: Start web interface
+# Терминал 3: Запуск веб-интерфейса
 npm run web
 
-# Terminal 4: Run scraper (optional)
+# Терминал 4: Запуск скрапера (опционально)
 npm run scrape
 ```
 
-## 📁 Project Structure
+## 📁 Структура проекта
 
 ```
 skystream/
 ├── src/
 │   ├── scrapers/
-│   │   ├── BaseScraper.js          # Base scraper class
-│   │   ├── TutuScraper.js          # Tutu.ru DOM parser
-│   │   ├── WBScraper.js            # Wildberries Travel API interceptor
-│   │   └── KupibiletScraper.js     # Legacy scraper (deprecated)
+│   │   ├── BaseScraper.js          # Базовый класс скрапера
+│   │   ├── TutuScraper.js          # DOM парсер Tutu.ru
+│   │   ├── WBScraper.js            # Перехватчик API Wildberries Travel
+│   │   └── KupibiletScraper.js     # Устаревший скрапер (deprecated)
 │   ├── models/
-│   │   └── Flight.js               # MongoDB Flight model
-│   ├── app.js                     # Main scraper aggregator
-│   └── api-server.js              # Express API server
+│   │   └── Flight.js               # Модель Flight для MongoDB
+│   ├── app.js                     # Главный агрегатор скраперов
+│   └── api-server.js              # Express API сервер
 ├── web/
-│   ├── app.py                     # Streamlit dashboard
-│   ├── requirements.txt           # Python dependencies
-│   └── .streamlit/               # Streamlit config
-├── parser_py/                     # Python API server (legacy)
-├── data/                          # MongoDB data directory
-├── logs/                          # Application logs
-├── start.sh                       # Startup script
-├── stop.sh                        # Stop script
-├── package.json                   # Node.js dependencies
-├── docker-compose.yml             # Docker configuration
-└── README.md                      # This file
+│   ├── app.py                     # Дашборд Streamlit
+│   ├── requirements.txt           # Зависимости Python
+│   └── .streamlit/               # Конфигурация Streamlit
+├── parser_py/                     # Python API сервер (legacy)
+├── data/                          # Директория данных MongoDB
+├── logs/                          # Логи приложения
+├── start.sh                       # Скрипт запуска
+├── stop.sh                        # Скрипт остановки
+├── package.json                   # Зависимости Node.js
+├── docker-compose.yml             # Конфигурация Docker
+└── README.md                      # Этот файл
 ```
 
 ## 🔌 API Endpoints
 
-### Search flights by route and date
+### Поиск рейсов по маршруту и дате
 
 ```
 GET /api/search?origin=MOW&destination=LED&date=2026-05-14
 ```
 
-Response:
+Ответ:
 ```json
 {
   "origin": "MOW",
@@ -143,145 +143,145 @@ Response:
 }
 ```
 
-### Get cheapest flights from origin
+### Получение самых дешевых рейсов из города отправления
 
 ```
 GET /api/cheapest?origin=MOW&date=2026-05-14
 ```
 
-### Get all flights
+### Получение всех рейсов
 
 ```
 GET /api/flights
 ```
 
-## 🌐 Web Interface
+## 🌐 Веб-интерфейс
 
-Access the Streamlit dashboard at: **http://localhost:8501**
+Доступ к дашборду Streamlit: **http://localhost:8501**
 
-Features:
-- Search flights by route and date
-- Find cheapest flights by destination
-- View price charts and statistics
-- Filter by airline and source
+Возможности:
+- Поиск рейсов по маршруту и дате
+- Поиск самых дешевых рейсов по направлениям
+- Просмотр графиков цен и статистики
+- Фильтрация по авиакомпании и источнику
 
-## 📊 Data Sources
+## 📊 Источники данных
 
 ### Tutu.ru
-- **Method**: DOM parsing with Playwright
-- **URL format**: `https://avia.tutu.ru/f/{from}/{to}/?departure={date}`
-- **Data extracted**: airline, price
-- **Stealth**: Uses playwright-extra with stealth plugin
+- **Метод**: DOM парсинг с Playwright
+- **Формат URL**: `https://avia.tutu.ru/f/{from}/{to}/?departure={date}`
+- **Извлекаемые данные**: авиакомпания, цена
+- **Stealth**: Использует playwright-extra с stealth плагином
 
 ### Wildberries Travel
-- **Method**: API interception
-- **URL format**: `https://vmeste.wildberries.ru/avia/search?from={origin}&to={destination}&date={date}`
-- **Data extracted**: airline, price, flight number
-- **Fallback**: DOM parsing if API fails
+- **Метод**: Перехват API
+- **Формат URL**: `https://vmeste.wildberries.ru/avia/search?from={origin}&to={destination}&date={date}`
+- **Извлекаемые данные**: авиакомпания, цена, номер рейса
+- **Fallback**: DOM парсинг при неудаче API
 
-## 🔧 Configuration
+## 🔧 Конфигурация
 
-### Environment Variables
+### Переменные окружения
 
-Create a `.env` file:
+Создайте файл `.env`:
 
 ```env
 MONGO_URI=mongodb://localhost:27017/skyscout
 PORT=3000
 ```
 
-### Scraper Configuration
+### Конфигурация скрапера
 
-Edit `src/app.js` to change:
-- Origin/destination cities
-- Search date
-- Scraping sources
+Отредактируйте `src/app.js` для изменения:
+- Городов отправления/назначения
+- Даты поиска
+- Источников скрапинга
 
-## 📝 Scripts
+## 📝 Скрипты
 
 ```bash
-npm start          # Run scraper
-npm run api        # Start API server
-npm run web        # Start web interface
-npm run dev        # Start API + web interface
-npm run scrape     # Run scraper
+npm start          # Запуск скрапера
+npm run api        # Запуск API сервера
+npm run web        # Запуск веб-интерфейса
+npm run dev        # Запуск API + веб-интерфейса
+npm run scrape     # Запуск скрапера
 ```
 
-## 🗄️ MongoDB Schema
+## 🗄️ Схема MongoDB
 
-### Flight Model
+### Модель Flight
 
 ```javascript
 {
-  flightNumber: String,      // Flight number (optional)
-  airline: String,           // Airline name (optional)
-  price: Number,             // Price in rubles (required)
-  origin: String,            // Origin IATA code (required)
-  destination: String,       // Destination IATA code (required)
-  departureDate: Date,       // Departure date (required)
-  source: String,            // Data source (required)
-  createdAt: Date,           // Creation timestamp
-  expires: 7d                // TTL index
+  flightNumber: String,      // Номер рейса (опционально)
+  airline: String,           // Название авиакомпании (опционально)
+  price: Number,             // Цена в рублях (обязательно)
+  origin: String,            // IATA код отправления (обязательно)
+  destination: String,       // IATA код назначения (обязательно)
+  departureDate: Date,       // Дата отправления (обязательно)
+  source: String,            // Источник данных (обязательно)
+  createdAt: Date,           // Временная метка создания
+  expires: 7d                // TTL индекс
 }
 ```
 
-## 🚨 Troubleshooting
+## 🚨 Устранение проблем
 
-### MongoDB connection error
+### Ошибка подключения к MongoDB
 
 ```bash
-# Check if MongoDB is running
+# Проверка запущена ли MongoDB
 lsof -i :27017
 
-# Start MongoDB manually
+# Ручной запуск MongoDB
 mongod --dbpath ./data --port 27017
 ```
 
-### Playwright browser not installed
+### Браузер Playwright не установлен
 
 ```bash
 npx playwright install chromium
 ```
 
-### Port already in use
+### Порт уже занят
 
 ```bash
-# Find process using port
+# Найти процесс использующий порт
 lsof -i :3000
 
-# Kill process
+# Убить процесс
 kill -9 <PID>
 ```
 
-### Scraper finds no results
+### Скрапер не находит результаты
 
-- Check if the URL format is correct
-- Verify that the search date is valid
-- Ensure the website structure hasn't changed
-- Check browser logs for errors
+- Проверьте правильность формата URL
+- Убедитесь в валидности даты поиска
+- Убедитесь что структура сайта не изменилась
+- Проверьте логи браузера на наличие ошибок
 
-## 📈 Performance
+## 📈 Производительность
 
-- **Parallel scraping**: ~20-30 seconds for both sources
-- **MongoDB queries**: <100ms
-- **API response time**: <200ms
-- **Data retention**: 7 days (TTL)
+- **Параллельный скрапинг**: ~20-30 секунд для обоих источников
+- **Запросы MongoDB**: <100ms
+- **Время ответа API**: <200ms
+- **Хранение данных**: 7 дней (TTL)
 
-## 🤝 Contributing
+## 🤝 Вклад в проект
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+1. Форкните репозиторий
+2. Создайте feature branch
+3. Внесите изменения
+4. Отправьте pull request
 
-## 📄 License
+## 📄 Лицензия
 
-MIT License - see LICENSE file for details
+MIT License - см. файл LICENSE для деталей
 
-## ⚠️ Disclaimer
+## ⚠️ Отказ от ответственности
 
-This project is for educational purposes only. Please respect the terms of service of the websites being scraped. Use responsibly and at your own risk.
+Этот проект предназначен только для образовательных целей. Пожалуйста, уважайте условия использования сайтов, с которых собираются данные. Используйте ответственно и на свой страх и риск.
 
-## 📞 Support
+## 📞 Поддержка
 
-For issues and questions, please open an issue on GitHub.
+Для вопросов и проблем, пожалуйста, откройте issue на GitHub.
